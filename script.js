@@ -366,7 +366,7 @@ function gatherFormData() {
     const acknowledgmentCheckbox = document.getElementById('acknowledgment');
     if (acknowledgmentCheckbox && acknowledgmentCheckbox.checked) {
         // Form expects specific value for checkbox usually, standard forms send the label string.
-        data.acknowledgment = 'I understand that being in the core team requires consistent involvement and may include attending external camps/events as part of my role';
+        data.acknowledgment = 'Yes I am okay with that';
     }
     
     return data;
