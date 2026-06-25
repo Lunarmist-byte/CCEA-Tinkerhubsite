@@ -284,10 +284,7 @@ function submitForm() {
         'acknowledgment': 'entry.1394325944'
     };
     
-    const form = document.createElement('form');
-    form.action = googleFormURL;
-    form.method = 'POST';
-    form.target = 'hiddenFrame';
+    const params = new URLSearchParams();
     
     // Add required Google Forms hidden fields
     const hiddenData = {
@@ -296,60 +293,35 @@ function submitForm() {
         'fbzx': '-3296014919673171957'
     };
     for (const [k, v] of Object.entries(hiddenData)) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = k;
-        input.value = v;
-        form.appendChild(input);
-    }
-    
-    if (!document.getElementById('hiddenFrame')) {
-        const iframe = document.createElement('iframe');
-        iframe.name = 'hiddenFrame';
-        iframe.id = 'hiddenFrame';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
+        params.append(k, v);
     }
     
     for (const key in formData) {
         if (formMap[key]) {
             if (Array.isArray(formData[key])) {
                 formData[key].forEach(val => {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = formMap[key];
-                    input.value = val;
-                    form.appendChild(input);
+                    params.append(formMap[key], val);
                 });
             } else {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = formMap[key];
-                input.value = formData[key] || '';
-                form.appendChild(input);
+                params.append(formMap[key], formData[key] || '');
             }
         }
     }
     
-    document.body.appendChild(form);
-    
-    try {
-        form.submit();
-        
-        setTimeout(() => {
-            if (document.body.contains(form)) {
-                document.body.removeChild(form);
-            }
-            goToStep('step-success');
-        }, 2000);
-    } catch (e) {
+    fetch(googleFormURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: params.toString()
+    }).then(() => {
+        goToStep('step-success');
+    }).catch((e) => {
         console.error('Submission failed', e);
         alert('There was an error submitting your application. Please try again.');
-        if (document.body.contains(form)) {
-            document.body.removeChild(form);
-        }
         goBack();
-    }
+    });
 }
 
 function gatherFormData() {
