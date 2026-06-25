@@ -261,18 +261,22 @@ function submitForm() {
         if (formMap[key]) {
             if (Array.isArray(formData[key])) {
                 formData[key].forEach(val => {
+                    if (val) {
+                        const input = document.createElement('input');
+                        input.type = 'hidden';
+                        input.name = formMap[key];
+                        input.value = val;
+                        form.appendChild(input);
+                    }
+                });
+            } else {
+                if (formData[key] !== undefined && formData[key] !== null && formData[key] !== '') {
                     const input = document.createElement('input');
                     input.type = 'hidden';
                     input.name = formMap[key];
-                    input.value = val;
+                    input.value = formData[key];
                     form.appendChild(input);
-                });
-            } else {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = formMap[key];
-                input.value = formData[key] || '';
-                form.appendChild(input);
+                }
             }
         }
     }
