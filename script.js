@@ -180,7 +180,7 @@ function finishRoleQuestions(roleType) {
     selectedRoles = selectedRoles.filter(r => r !== roleName);
     completedRoles.push(roleName);
     
-    showAnotherRolePrompt(roleName);
+    goToStep('step-commitment');
 }
 
 function showAnotherRolePrompt(completedRoleName) {
@@ -340,18 +340,6 @@ function submitForm() {
                 completedRoles.push(selectedRoles[0]);
             }
             
-            // Save to session storage for "Apply for Another Role" reload logic
-            sessionStorage.setItem('completedRoles', JSON.stringify(completedRoles));
-            sessionStorage.setItem('personalData', JSON.stringify({
-                fullName: formData.fullName,
-                currentYear: formData.currentYear,
-                department: formData.department,
-                contactNo: formData.contactNo,
-                contactMail: formData.contactMail,
-                github: formData.github
-            }));
-            
-            // Hide/show the "Another Role" button if they've applied for all 3
             const anotherRoleBtn = document.getElementById('anotherRoleBtn');
             if (anotherRoleBtn) {
                 if (completedRoles.length >= 3) {
@@ -377,7 +365,7 @@ function gatherFormData() {
         contactNo: document.getElementById('contactNo').value,
         contactMail: document.getElementById('contactMail').value,
         github: document.getElementById('github').value,
-        roles: completedRoles,
+        roles: selectedRoles,
         
         lcVideo: document.getElementById('lcVideo')?.value,
         lcTech: document.getElementById('lcTech')?.value,
@@ -411,48 +399,28 @@ function gatherFormData() {
 }
 
 function applyForAnotherRole() {
-    sessionStorage.setItem('applyAnother', 'true');
-    window.location.reload();
+    // Clear role-specific inputs
+    const roleInputs = ['lcVideo', 'lcTech', 'witVideo', 'witTech', 'witOpenMic', 'outreachVideo', 'outreachTeam', 'outreachTools'];
+    roleInputs.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.value = '';
+            el.classList.remove('error');
+        }
+    });
+    
+    // Uncheck radio buttons from commitments
+    document.querySelectorAll('input[name="travelCommitment"], input[name="acknowledgment"]').forEach(radio => radio.checked = false);
+    
+    // Clear selected roles and go back to role step
+    selectedRoles = [];
+    document.getElementById('roleNextBtn').disabled = true;
+    updateRoleSelectionUI();
+    
+    goToStep('step-role');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Check if user is returning to apply for another role
-    if (sessionStorage.getItem('applyAnother') === 'true') {
-        sessionStorage.removeItem('applyAnother');
-        
-        // Restore completed roles
-        const storedRoles = sessionStorage.getItem('completedRoles');
-        if (storedRoles) {
-            completedRoles = JSON.parse(storedRoles);
-        }
-        
-        // Restore personal data
-        const storedPersonalData = sessionStorage.getItem('personalData');
-        if (storedPersonalData) {
-            const personalData = JSON.parse(storedPersonalData);
-            if (document.getElementById('fullName')) document.getElementById('fullName').value = personalData.fullName || '';
-            if (document.getElementById('department')) document.getElementById('department').value = personalData.department || '';
-            if (document.getElementById('contactNo')) document.getElementById('contactNo').value = personalData.contactNo || '';
-            if (document.getElementById('contactMail')) document.getElementById('contactMail').value = personalData.contactMail || '';
-            if (document.getElementById('github')) document.getElementById('github').value = personalData.github || '';
-            
-            if (personalData.currentYear) {
-                const yearRadios = document.getElementsByName('currentYear');
-                for (const radio of yearRadios) {
-                    if (radio.value === personalData.currentYear) {
-                        radio.checked = true;
-                        break;
-                    }
-                }
-            }
-            
-            // Advance automatically to role selection
-            setTimeout(() => {
-                goToRoleSelect();
-            }, 100);
-        }
-    }
-    
     document.querySelectorAll('input, select, textarea').forEach(input => {
         input.addEventListener('input', () => {
             input.classList.remove('error');
