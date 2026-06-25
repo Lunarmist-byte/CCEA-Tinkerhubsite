@@ -287,11 +287,11 @@ function submitForm() {
     form.method = 'POST';
     form.target = 'hiddenFrame';
     
-    // Add required Google Forms hidden fields
+    // Add required Google Forms hidden fields with a random session token
     const hiddenData = {
         'fvv': '1',
         'pageHistory': '0',
-        'fbzx': '-3296014919673171957'
+        'fbzx': String(Math.floor(Math.random() * 9000000000000000000) * (Math.random() > 0.5 ? 1 : -1))
     };
     for (const [k, v] of Object.entries(hiddenData)) {
         const input = document.createElement('input');
