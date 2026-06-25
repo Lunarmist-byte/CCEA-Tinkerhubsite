@@ -314,20 +314,6 @@ function submitForm() {
         },
         body: params.toString()
     }).then(() => {
-        if (selectedRoles.length > 0 && !completedRoles.includes(selectedRoles[0])) {
-            completedRoles.push(selectedRoles[0]);
-        }
-        
-        // Hide/show the "Another Role" button if they've applied for all 3
-        const anotherRoleBtn = document.getElementById('anotherRoleBtn');
-        if (anotherRoleBtn) {
-            if (completedRoles.length >= 3) {
-                anotherRoleBtn.style.display = 'none';
-            } else {
-                anotherRoleBtn.style.display = 'inline-block';
-            }
-        }
-        
         goToStep('step-success');
     }).catch((e) => {
         console.error('Submission failed', e);
@@ -374,28 +360,6 @@ function gatherFormData() {
     }
     
     return data;
-}
-
-function applyForAnotherRole() {
-    // Clear role-specific inputs
-    const roleInputs = ['lcVideo', 'lcTech', 'witVideo', 'witTech', 'witOpenMic', 'outreachVideo', 'outreachTeam', 'outreachTools'];
-    roleInputs.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            el.value = '';
-            el.classList.remove('error');
-        }
-    });
-    
-    // Uncheck radio buttons from commitments
-    document.querySelectorAll('input[name="travelCommitment"], input[name="acknowledgment"]').forEach(radio => radio.checked = false);
-    
-    // Clear selected roles and go back to role step
-    selectedRoles = [];
-    document.getElementById('roleNextBtn').disabled = true;
-    updateRoleSelectionUI();
-    
-    goToStep('step-role');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
