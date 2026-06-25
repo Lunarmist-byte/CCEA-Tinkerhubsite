@@ -249,20 +249,6 @@ function submitForm() {
     form.method = 'POST';
     form.target = 'hiddenFrame';
     
-    // Add required Google Forms hidden fields with a random session token
-    const hiddenData = {
-        'fvv': '1',
-        'pageHistory': '0',
-        'fbzx': String(Math.floor(Math.random() * 9000000000000000000) * (Math.random() > 0.5 ? 1 : -1))
-    };
-    for (const [k, v] of Object.entries(hiddenData)) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = k;
-        input.value = v;
-        form.appendChild(input);
-    }
-    
     if (!document.getElementById('hiddenFrame')) {
         const iframe = document.createElement('iframe');
         iframe.name = 'hiddenFrame';
