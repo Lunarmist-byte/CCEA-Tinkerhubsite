@@ -244,11 +244,6 @@ function submitForm() {
         'acknowledgment': 'entry.1394325944'
     };
     
-    const form = document.createElement('form');
-    form.action = googleFormURL;
-    form.method = 'POST';
-    form.target = 'hiddenFrame';
-    
     // Determine the correct pageHistory based on the selected role.
     // Google Forms requires pageHistory to know which sections were visited.
     // Page 0: General Info
@@ -265,71 +260,52 @@ function submitForm() {
         pageHistory = '0,1,2,3,4'; // Fallback
     }
     
-    const phInput = document.createElement('input');
-    phInput.type = 'hidden';
-    phInput.name = 'pageHistory';
-    phInput.value = pageHistory;
-    form.appendChild(phInput);
-    
-    if (!document.getElementById('hiddenFrame')) {
-        const iframe = document.createElement('iframe');
-        iframe.name = 'hiddenFrame';
-        iframe.id = 'hiddenFrame';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-    }
+    const urlParams = new URLSearchParams();
+    urlParams.append('pageHistory', pageHistory);
     
     for (const key in formData) {
         if (formMap[key]) {
             if (Array.isArray(formData[key])) {
                 formData[key].forEach(val => {
-                    if (val) {
-                        const input = document.createElement('input');
-                        input.type = 'hidden';
-                        input.name = formMap[key];
-                        input.value = val;
-                        form.appendChild(input);
-                    }
+                    if (val) urlParams.append(formMap[key], val);
                 });
             } else {
                 if (formData[key] !== undefined && formData[key] !== null && formData[key] !== '') {
-                    const input = document.createElement('input');
-                    input.type = 'hidden';
-                    input.name = formMap[key];
-                    input.value = formData[key];
-                    form.appendChild(input);
+                    urlParams.append(formMap[key], formData[key]);
                 }
             }
         }
     }
     
-    form.style.display = 'none';
-    document.body.appendChild(form);
-    
-    try {
-        form.submit();
+    fetch(googleFormURL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: urlParams.toString()
+    })
+    .then(() => {
+        if (selectedRoles.length > 0 && !completedRoles.includes(selectedRoles[0])) {
+            completedRoles.push(selectedRoles[0]);
+        }
         
-        setTimeout(() => {
-            if (selectedRoles.length > 0 && !completedRoles.includes(selectedRoles[0])) {
-                completedRoles.push(selectedRoles[0]);
+        const anotherRoleBtn = document.getElementById('anotherRoleBtn');
+        if (anotherRoleBtn) {
+            if (completedRoles.length >= 3) {
+                anotherRoleBtn.style.display = 'none';
+            } else {
+                anotherRoleBtn.style.display = 'inline-block';
             }
-            
-            const anotherRoleBtn = document.getElementById('anotherRoleBtn');
-            if (anotherRoleBtn) {
-                if (completedRoles.length >= 3) {
-                    anotherRoleBtn.style.display = 'none';
-                } else {
-                    anotherRoleBtn.style.display = 'inline-block';
-                }
-            }
-            
-            goToStep('step-success');
-        }, 1500);
-    } catch (e) {
+        }
+        
+        goToStep('step-success');
+    })
+    .catch((e) => {
         console.error('Submission failed', e);
         alert('There was an error submitting your application. Please try again.');
         goBack();
-    }
+    });
 }
 
 function gatherFormData() {
