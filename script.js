@@ -314,6 +314,31 @@ function submitForm() {
         },
         body: params.toString()
     }).then(() => {
+        if (selectedRoles.length > 0 && !completedRoles.includes(selectedRoles[0])) {
+            completedRoles.push(selectedRoles[0]);
+        }
+        
+        // Save to session storage for "Apply for Another Role" reload logic
+        sessionStorage.setItem('completedRoles', JSON.stringify(completedRoles));
+        sessionStorage.setItem('personalData', JSON.stringify({
+            name: document.getElementById('name').value,
+            year: document.getElementById('year').value,
+            department: document.getElementById('department').value,
+            contactNo: document.getElementById('contactNo').value,
+            contactMail: document.getElementById('contactMail').value,
+            github: document.getElementById('github').value
+        }));
+        
+        // Hide/show the "Another Role" button if they've applied for all 3
+        const anotherRoleBtn = document.getElementById('anotherRoleBtn');
+        if (anotherRoleBtn) {
+            if (completedRoles.length >= 3) {
+                anotherRoleBtn.style.display = 'none';
+            } else {
+                anotherRoleBtn.style.display = 'inline-block';
+            }
+        }
+        
         goToStep('step-success');
     }).catch((e) => {
         console.error('Submission failed', e);
@@ -362,8 +387,39 @@ function gatherFormData() {
     return data;
 }
 
+function applyForAnotherRole() {
+    sessionStorage.setItem('applyAnother', 'true');
+    window.location.reload();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    
+    // Check if user is returning to apply for another role
+    if (sessionStorage.getItem('applyAnother') === 'true') {
+        sessionStorage.removeItem('applyAnother');
+        
+        // Restore completed roles
+        const storedRoles = sessionStorage.getItem('completedRoles');
+        if (storedRoles) {
+            completedRoles = JSON.parse(storedRoles);
+        }
+        
+        // Restore personal data
+        const storedPersonalData = sessionStorage.getItem('personalData');
+        if (storedPersonalData) {
+            const personalData = JSON.parse(storedPersonalData);
+            document.getElementById('name').value = personalData.name || '';
+            document.getElementById('year').value = personalData.year || '';
+            document.getElementById('department').value = personalData.department || '';
+            document.getElementById('contactNo').value = personalData.contactNo || '';
+            document.getElementById('contactMail').value = personalData.contactMail || '';
+            document.getElementById('github').value = personalData.github || '';
+            
+            // Advance automatically to role selection
+            setTimeout(() => {
+                goToRoleSelect();
+            }, 100);
+        }
+    }
     
     document.querySelectorAll('input, select, textarea').forEach(input => {
         input.addEventListener('input', () => {
