@@ -1,45 +1,45 @@
-# TinkerHub Core Team Application Portal 🚀
+# TinkerHub Core Team Application Portal
 
-Welcome to the **TinkerHub Campus Core Team Application Portal** for the College of Engineering and Management, Punnapra. This is a dynamic, multi-step web application built to streamline the recruitment process for new core team members. 
+The TinkerHub Campus Core Team Application Portal for the College of Engineering and Management, Punnapra is a multi-step web application used for core team recruitment.
 
-It features a modern brutalist design, dynamic role-based question routing, and direct, serverless integration with Google Forms to securely collect applications.
+The application uses a brutalist design system and integrates directly with Google Forms to collect submissions without requiring a dedicated backend server.
 
-## 🌟 Features
+## Features
 
-- **Modern Brutalist UI**: A bold, high-contrast, and responsive interface that stands out, complete with micro-interactions and hover effects.
-- **Dark Mode Support**: Seamlessly toggle between light and dark themes. The design fully adapts to provide an optimal viewing experience.
-- **Dynamic Multi-Step Form**: Users are guided through a structured application process. The form dynamically routes applicants to specific questions based on the role(s) they select.
-- **Multi-Role Application**: Applicants can apply for multiple roles at once (e.g., Learning Coordinator and Outreach Lead), and the form will intelligently compile all required questions.
-- **Serverless Google Forms Integration**: Form submissions are securely POSTed directly to a Google Form using hidden iframes and payload formatting. No backend server is required!
-- **Real-time Validation**: Ensures all required fields, including role-specific questions, are answered before allowing the user to proceed.
+- **Brutalist UI**: High-contrast, responsive interface with micro-interactions.
+- **Dark Mode**: Integrated light and dark themes using CSS custom properties.
+- **Dynamic Multi-Step Form**: Form routing adjusts based on the applicant's selected roles.
+- **Multi-Role Support**: Compiles relevant questions when an applicant selects multiple roles.
+- **Serverless Integration**: Submits data directly to a Google Form using payload mapping and hidden iframes.
+- **Client-side Validation**: Verifies required fields and role-specific answers prior to submission.
 
-## 🛠️ Technology Stack
+## Technology Stack
 
-- **HTML5**: Semantic structure.
-- **CSS3**: Custom properties (variables) for theming, Flexbox/Grid for layout, and modern animations.
-- **Vanilla JavaScript**: DOM manipulation, form state management, validation, and Google Forms integration logic.
+- **HTML5**: Semantic document structure.
+- **CSS3**: Variables, Flexbox/Grid layouts, and CSS animations.
+- **Vanilla JavaScript**: DOM manipulation, state management, validation, and form submission logic.
 
-## 🚀 Getting Started
+## Getting Started
 
-Since this is a static web application, no complex build tools or backend environments are needed.
+The project is a static web application. No build step is required.
 
 1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/Lunarmist-byte/CCEA-Tinkerhubsite
    ```
-2. Open `index.html` in your favorite browser, or serve it locally using a simple HTTP server:
+2. Serve the directory locally:
    ```bash
    npx serve .
    ```
-3. The application will run at `http://localhost:3000`.
+3. Access the application at `http://localhost:3000`.
 
-## ⚙️ How it Works
+## Architecture
 
-1. **State Management**: The application state (current step, selected roles, answers) is managed entirely in `script.js`.
-2. **Google Forms Mapping**: The form data is mapped to specific Google Form `entry.*` IDs. When the user hits submit, the JavaScript dynamically generates a hidden form, populates it with the mapped data (handling array fields automatically), and submits it to a hidden iframe.
-3. **Required Fields**: To satisfy Google Forms' strict validation on multi-page forms, the submission includes necessary metadata (`pageHistory`, `fvv`, `fbzx`).
+1. **State Management**: Application state including current step, selected roles, and input answers is managed within `script.js`.
+2. **Google Forms Mapping**: Form data is mapped to specific Google Form `entry.*` IDs. Array fields are processed into multiple hidden inputs.
+3. **Form Submission**: Submissions are executed by generating a hidden form containing the mapped data and necessary Google Forms tracking metadata (`pageHistory`, `fvv`, `fbzx`). The payload targets a hidden iframe to prevent page redirection upon submission.
 
-## 🤝 Made by Lunarmist-byte
+## Made by Lunarmist-byte
 
 This project was developed by Amal S Kumar.
 - [GitHub](https://github.com/Lunarmist-byte)
