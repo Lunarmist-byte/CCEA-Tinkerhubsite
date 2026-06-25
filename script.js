@@ -169,44 +169,6 @@ function finishRoleQuestions(roleType) {
     const stepId = `step-${roleType}`;
     if (!validateStep(stepId)) return;
     
-    const roleMap = {
-        'lc': 'Learning Coordinator',
-        'wit': 'Women In Tech (WIT) Lead(Only for females)',
-        'outreach': 'Outreach Lead'
-    };
-    
-    const roleName = roleMap[roleType];
-    
-    selectedRoles = selectedRoles.filter(r => r !== roleName);
-    completedRoles.push(roleName);
-    
-    goToStep('step-commitment');
-}
-
-function showAnotherRolePrompt(completedRoleName) {
-    document.getElementById('completedRoleName').textContent = completedRoleName;
-    
-    const remainingRolesList = document.getElementById('remainingRoles');
-    const allRoles = ['Learning Coordinator', 'Women In Tech (WIT) Lead(Only for females)', 'Outreach Lead'];
-    const availableRoles = allRoles.filter(r => !completedRoles.includes(r));
-    
-    if (availableRoles.length > 0) {
-        remainingRolesList.innerHTML = `<p>Roles still available: <strong>${availableRoles.join(', ')}</strong></p>`;
-        document.getElementById('anotherRoleBtn').style.display = 'inline-flex';
-    } else {
-        remainingRolesList.innerHTML = `<p>You have applied for all available roles!</p>`;
-        document.getElementById('anotherRoleBtn').style.display = 'none';
-    }
-    
-    goToStep('step-another');
-}
-
-function applyForAnother() {
-    goToStep('step-role');
-    updateRoleSelectionUI();
-}
-
-function skipToCommitment() {
     goToStep('step-commitment');
 }
 
