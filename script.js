@@ -249,6 +249,28 @@ function submitForm() {
     form.method = 'POST';
     form.target = 'hiddenFrame';
     
+    // Determine the correct pageHistory based on the selected role.
+    // Google Forms requires pageHistory to know which sections were visited.
+    // Page 0: General Info
+    // Page 1: LC, Page 2: WIT, Page 3: Outreach
+    // Page 4: Time & Commitment
+    let pageHistory = '0';
+    if (selectedRoles.includes('Learning Coordinator')) {
+        pageHistory = '0,1,4';
+    } else if (selectedRoles.includes('Women In Tech (WIT) Lead(Only for females)')) {
+        pageHistory = '0,2,4';
+    } else if (selectedRoles.includes('Outreach Lead')) {
+        pageHistory = '0,3,4';
+    } else {
+        pageHistory = '0,1,2,3,4'; // Fallback
+    }
+    
+    const phInput = document.createElement('input');
+    phInput.type = 'hidden';
+    phInput.name = 'pageHistory';
+    phInput.value = pageHistory;
+    form.appendChild(phInput);
+    
     if (!document.getElementById('hiddenFrame')) {
         const iframe = document.createElement('iframe');
         iframe.name = 'hiddenFrame';
