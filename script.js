@@ -337,14 +337,18 @@ function submitForm() {
         form.submit();
         
         setTimeout(() => {
+            if (document.body.contains(form)) {
+                document.body.removeChild(form);
+            }
             goToStep('step-success');
         }, 2000);
     } catch (e) {
         console.error('Submission failed', e);
         alert('There was an error submitting your application. Please try again.');
+        if (document.body.contains(form)) {
+            document.body.removeChild(form);
+        }
         goBack();
-    } finally {
-        document.body.removeChild(form);
     }
 }
 
@@ -410,11 +414,10 @@ const themeToggle = document.getElementById('themeToggle');
 const sunIcon = document.querySelector('.sun-icon');
 const moonIcon = document.querySelector('.moon-icon');
 
-// Check local storage or system preference
+// Check local storage
 const savedTheme = localStorage.getItem('theme');
-const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+if (savedTheme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
     sunIcon.style.display = 'none';
     moonIcon.style.display = 'block';
