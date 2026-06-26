@@ -1,6 +1,6 @@
 # TinkerHub Core Team Application Portal
 
-The TinkerHub Campus Core Team Application Portal for the College of Engineering and Management, Punnapra is a multi-step web application used for core team recruitment.
+The TinkerHub Campus Core Team Application Portal for the Cape college of engineering alappuzha is a multi-step web application used for core team recruitment.
 
 The application uses a brutalist design system and integrates directly with Google Forms to collect submissions without requiring a dedicated backend server.
 
