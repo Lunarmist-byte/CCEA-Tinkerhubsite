@@ -243,12 +243,6 @@ function submitForm() {
         'travelCommitment': 'entry.1584806847',
         'acknowledgment': 'entry.1394325944'
     };
-    
-    // Determine the correct pageHistory based on the selected role.
-    // Google Forms requires pageHistory to know which sections were visited.
-    // Page 0: General Info
-    // Page 1: LC, Page 2: WIT, Page 3: Outreach
-    // Page 4: Time & Commitment
     let pageHistory = '0';
     if (selectedRoles.includes('Learning Coordinator')) {
         pageHistory = '0,1,4';
@@ -357,10 +351,7 @@ function applyForAnotherRole() {
             el.value = '';
             el.classList.remove('error');
         }
-    });
-    
-    // Uncheck radio buttons from commitments
-    document.querySelectorAll('input[name="travelCommitment"], input[name="acknowledgment"]').forEach(radio => radio.checked = false);
+    }); document.querySelectorAll('input[name="travelCommitment"], input[name="acknowledgment"]').forEach(radio => radio.checked = false);
     
     // Clear selected roles and go back to role step
     selectedRoles = [];
@@ -385,12 +376,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Theme Toggle Logic
 const themeToggle = document.getElementById('themeToggle');
 const sunIcon = document.querySelector('.sun-icon');
 const moonIcon = document.querySelector('.moon-icon');
 
-// Check local storage
 const savedTheme = localStorage.getItem('theme');
 
 if (savedTheme === 'dark') {
