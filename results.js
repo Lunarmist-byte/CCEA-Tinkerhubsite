@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isCompleted = false;
 
     const candidateDatabase = {
-        "Vasudev K S": { role: "subteam", title: "Outreach Lead Volunteer" },
+        "Vasudev K S": { role: "subteam", title: "Outreach Volunteer" },
         "Krishna Priya U P": { role: "subteam", title: "Women in Tech Volunteer" },
         "Navaneeth P": { role: "lead", title: "Learning Coordinator" },
         "Aswin P": { role: "subteam", title: "Learning Coordinator Volunteer" },
