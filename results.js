@@ -140,15 +140,23 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadBtn.style.opacity = '0';
 
         const originalTransform = letterCard.style.transform;
+        const originalWidth = letterCard.style.width;
+        const originalMaxWidth = letterCard.style.maxWidth;
+        
         letterCard.style.transform = 'scale(1)';
+        letterCard.style.width = '800px';
+        letterCard.style.maxWidth = '800px';
 
         setTimeout(() => {
             html2canvas(letterCard, {
                 scale: 2,
                 backgroundColor: '#ffffff',
-                useCORS: true
+                useCORS: true,
+                windowWidth: 1024
             }).then(canvas => {
                 letterCard.style.transform = originalTransform;
+                letterCard.style.width = originalWidth;
+                letterCard.style.maxWidth = originalMaxWidth;
 
                 const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
