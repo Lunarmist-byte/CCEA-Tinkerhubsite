@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results-TinkerHub CE-Alappuzha</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="results.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <main class="prototype-container">
+        <div class="input-screen active" id="inputScreen">
+            <div class="input-card brutal-card">
+                <div class="logo-placeholder">
+                    <img src="logo_th.png" alt="TinkerHub Logo" height="64">
+                </div>
+                <h1 class="brutal-title">Check Results</h1>
+                <p class="brutal-desc">Enter your full name to reveal your application status.</p>
+                
+                <div class="input-group">
+                    <input type="text" id="userName" class="brutal-input" placeholder="YOUR FULL NAME" autocomplete="off" style="text-transform: uppercase;">
+                    <button id="revealBtn" class="brutal-btn-primary">
+                        Check Status <span class="arrow">→</span>
+                    </button>
+                </div>
+            </div>
+            
+            <footer class="footer">
+                <div class="footer-credit">
+                    <p>Made by <strong>Lunarmist-byte</strong></p>
+                    <div class="footer-links">
+                        <a href="https://github.com/Lunarmist-byte" target="_blank" class="footer-link">GitHub</a>
+                        <a href="https://www.linkedin.com/in/amal-s-kumar-ba69a1290/" target="_blank" class="footer-link">LinkedIn</a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+        <div class="reveal-screen" id="proto-glass">
+            <div class="top-controls">
+                <button id="resetBtn" class="brutal-btn-secondary">← Back</button>
+                <button id="downloadBtn" class="brutal-btn-primary download-btn" style="display: none;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Download PDF
+                </button>
+            </div>
+            
+            <div class="content-behind" id="certificateCaptureArea">
+                <div class="letter-card collapsed" id="letterCard">
+                    <div class="letter-header" id="letterHeader">
+                        <div class="letter-logos">
+                            <div class="logo-box">
+                                <img src="logo_th.png" alt="TinkerHub">
+                            </div>
+                            <div class="logo-box">
+                                <img src="image.png" alt="CCEA Logo">
+                            </div>
+                        </div>
+
+                        <span class="role-badge" id="roleBadge"></span>
+                        <h2 class="role-title" id="roleTitle"></h2>
+                        <div class="click-instruction" id="clickInstruction">Tap to expand letter</div>
+                    </div>
+                    
+                    <div class="letter-details" id="letterDetails">
+                        <h3 class="name-display" id="nameDisplay"></h3>
+                        
+                        <div class="letter-body" id="letterBody"></div>
+
+                        <div class="signature-section">
+                            <img src="signature.jpg" alt="Amal S Kumar Signature" style="height: 90px; margin-bottom: 0.5rem; display: block; mix-blend-mode: multiply;">
+                            <div class="signature-details">
+                                <strong>Amal S Kumar</strong><br>
+                                <span>Campus Lead</span><br>
+                                <span>TinkerHub CE Alappuzha</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="glass-overlay" id="glassOverlay" style="-webkit-mask: url(#scratchMask); mask: url(#scratchMask);"></div>
+
+            <div id="wipeTextInstruction" class="wipe-instruction">
+                Wipe to Reveal
+            </div>
+
+            <svg width="100%" height="100%" style="position:absolute; inset:0; pointer-events:none; z-index:-1;">
+                <defs>
+                    <mask id="scratchMask">
+                        <rect width="100%" height="100%" fill="white" />
+                        <g id="scratchPaths" fill="none" stroke="black" stroke-width="120" stroke-linecap="round" stroke-linejoin="round"></g>
+                    </mask>
+                </defs>
+            </svg>
+            
+            <div id="interactionLayer" style="position:absolute; inset:0; z-index:20; cursor:crosshair;"></div>
+            
+        </div>
+    </main>
+
+    <script src="results.js"></script>
+</body>
+</html>
