@@ -98,11 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         const candidateData = candidateKey ? candidateDatabase[candidateKey] : null;
 
-        if (candidateData) {
-            currentRole = candidateData.role;
-        } else {
-            currentRole = 'subteam';
+        if (!candidateData) {
+            alert('Name not found in candidate database.');
+            return;
         }
+        
+        currentRole = candidateData.role;
 
         const data = contentMap[currentRole];
         const assignedTitle = candidateData ? candidateData.title : data.title;
