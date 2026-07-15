@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
     let isCompleted = false;
 
     const candidateDatabase = {
-        "Vasudev K S": { role: "subteam", title: "Outreach Lead Volunteer" },
-        "Krishna Priya U P": { role: "subteam", title: "Women in Tech Volunteer" },
+        "Vasudev K S": { role: "subteam", title: "Outreach Volunteer" },
+        "Krishna Priya U P": { role: "lead", title: "Women in Tech Lead" },
         "Navaneeth P": { role: "lead", title: "Learning Coordinator" },
         "Aswin P": { role: "subteam", title: "Learning Coordinator Volunteer" },
         "Sreelakshmi G": { role: "subteam", title: "Learning Coordinator Volunteer" },
         "Parvathi Jayaprakash": { role: "subteam", title: "Learning Coordinator Volunteer" },
         "Adhil Rasheed": { role: "subteam", title: "Learning Coordinator Volunteer" },
         "Goutham Sankar": { role: "subteam", title: "Learning Coordinator Volunteer" },
-        "Krishnendu V": { role: "lead", title: "Women in Tech Lead" },
+        "Krishnendu V": { role: "subteam", title: "Women In Tech Volunteer" },
         "Uthara Uthaman": { role: "subteam", title: "Women In Tech Volunteer" },
         "Rishikesh Krishna": { role: "subteam", title: "Outreach Volunteer" },
         "Aravind P R": { role: "subteam", title: "Outreach Volunteer" },
@@ -98,17 +98,16 @@ document.addEventListener('DOMContentLoaded', () => {
         );
         const candidateData = candidateKey ? candidateDatabase[candidateKey] : null;
 
-        if (!candidateData) {
-            alert('Name not found in candidate database.');
-            return;
+        if (candidateData) {
+            currentRole = candidateData.role;
+        } else {
+            currentRole = 'subteam';
         }
-        
-        currentRole = candidateData.role;
 
         const data = contentMap[currentRole];
         const assignedTitle = candidateData ? candidateData.title : data.title;
 
-        nameDisplay.textContent = name.toLowerCase();
+        nameDisplay.textContent = name.toUpperCase();
         roleBadge.textContent = data.badge;
         roleTitle.textContent = assignedTitle;
 
@@ -141,23 +140,15 @@ document.addEventListener('DOMContentLoaded', () => {
         downloadBtn.style.opacity = '0';
 
         const originalTransform = letterCard.style.transform;
-        const originalWidth = letterCard.style.width;
-        const originalMaxWidth = letterCard.style.maxWidth;
-        
         letterCard.style.transform = 'scale(1)';
-        letterCard.style.width = '800px';
-        letterCard.style.maxWidth = '800px';
 
         setTimeout(() => {
             html2canvas(letterCard, {
                 scale: 2,
                 backgroundColor: '#ffffff',
-                useCORS: true,
-                windowWidth: 1024
+                useCORS: true
             }).then(canvas => {
                 letterCard.style.transform = originalTransform;
-                letterCard.style.width = originalWidth;
-                letterCard.style.maxWidth = originalMaxWidth;
 
                 const imgData = canvas.toDataURL('image/png');
                 const { jsPDF } = window.jspdf;
