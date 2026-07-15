@@ -25,7 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const candidateDatabase = {
         "Vasudev K S": { role: "subteam", title: "Outreach Volunteer" },
+<<<<<<< HEAD
         "Krishna Priya U P": { role: "lead", title: "Women in Tech Lead" },
+=======
+        "Krishna Priya U P": { role: "subteam", title: "Women in Tech Volunteer" },
+>>>>>>> 4d7a222a587254311f573522ee9266c74fc0cf42
         "Navaneeth P": { role: "lead", title: "Learning Coordinator" },
         "Aswin P": { role: "subteam", title: "Learning Coordinator Volunteer" },
         "Sreelakshmi G": { role: "subteam", title: "Learning Coordinator Volunteer" },
